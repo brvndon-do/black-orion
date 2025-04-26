@@ -30,7 +30,7 @@ export const startGame = () => {
 
   const camera = new THREE.PerspectiveCamera(
     75,
-    canvas.clientWidth / canvas.clientHeight,
+    window.innerWidth / window.innerHeight,
     0.1,
     1000
   );
@@ -41,6 +41,8 @@ export const startGame = () => {
   const renderSystem = new RenderSystem(canvas, camera, scene, entityManager);
 
   systemManager.addSystem(renderSystem);
+
+  systemManager.init();
 
   requestAnimationFrame(gameLoop);
 };
