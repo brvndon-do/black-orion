@@ -6,6 +6,8 @@ import { MeshComponent } from '../components/Mesh';
 
 export class RenderSystem extends BaseSystem {
   private renderer: THREE.WebGLRenderer;
+
+  // TODO: create light system?
   private light: THREE.DirectionalLight;
 
   private addedObjects: Set<THREE.Object3D>;
@@ -25,6 +27,7 @@ export class RenderSystem extends BaseSystem {
   }
 
   init(): void {
+    this.light.position.set(-1, 2, 4);
     this.scene.add(this.light);
   }
 
@@ -55,8 +58,18 @@ export class RenderSystem extends BaseSystem {
         transformComponent.position.y,
         transformComponent.position.z
       );
-      meshComponent.mesh.rotation.x = deltaTime;
-      meshComponent.mesh.rotation.y = deltaTime;
+
+      meshComponent.mesh.rotation.set(
+        transformComponent.rotation.x,
+        transformComponent.rotation.y,
+        transformComponent.rotation.z
+      );
+
+      // meshComponent.mesh.scale.set(
+      //   transformComponent.scale.x,
+      //   transformComponent.scale.y,
+      //   transformComponent.scale.z
+      // );
     }
 
     this.renderer.render(this.scene, this.camera);

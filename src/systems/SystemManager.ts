@@ -22,13 +22,24 @@ export class SystemManager {
     }
   }
 
-  init(): void {
+  initSystems(): void {
     for (const system of this.systems) {
       system.init();
     }
   }
 
-  dispose(): void {
+  disposeSystem(system: BaseSystem) {
+    const foundSystem = this.systems.find((x) => x === system);
+
+    if (foundSystem == null) {
+      console.log('systemManager: unable to find system');
+      return;
+    }
+
+    foundSystem.dispose();
+  }
+
+  disposeSystems(): void {
     for (const system of this.systems) {
       system.dispose();
     }
