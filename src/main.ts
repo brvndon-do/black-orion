@@ -6,6 +6,8 @@ import { SystemManager } from './systems/SystemManager';
 import { RenderSystem } from './systems/RenderSystem';
 import { InputSystem } from './systems/InputSystem';
 import { InputManager } from './misc/InputManager';
+import { CameraEntity } from './entities/Camera';
+import { MovementSystem } from './systems/MovementSystem';
 
 (() => {
   const canvas = document.querySelector('canvas');
@@ -21,29 +23,33 @@ import { InputManager } from './misc/InputManager';
   const systemManager = new SystemManager();
   const inputManager = new InputManager();
 
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    canvas.clientWidth / canvas.clientHeight,
-    0.1,
-    1000
-  );
-  camera.position.z = 5;
-
+  // TODO: scene manager
   const scene = new THREE.Scene();
 
+  const camera = new CameraEntity(
+    'mainCamera',
+    canvas.clientWidth,
+    canvas.clientHeight,
+    new THREE.Vector3(0, 0, 5)
+  );
+
+  entityManager.addEntity(camera);
+
   const cubes = [
-    new CubeEntity('x', 'blue', { x: 0, y: 0, z: 0 }),
-    new CubeEntity('y', 'red', { x: -2, y: 0, z: 0 }),
-    new CubeEntity('z', 'yellow', { x: 2, y: 0, z: 0 }),
+    new CubeEntity('x', 'blue', new THREE.Vector3(0, 0, 0)),
+    new CubeEntity('y', 'red', new THREE.Vector3(-2, 0, 0)),
+    new CubeEntity('z', 'yellow', new THREE.Vector3(2, 0, 0)),
   ];
 
   cubes.forEach((cube) => entityManager.addEntity(cube));
 
-  const renderSystem = new RenderSystem(canvas, camera, scene, entityManager);
+  const renderSystem = new RenderSystem(canvas, scene, entityManager);
   const inputSystem = new InputSystem(entityManager, inputManager);
+  const movementSystem = new MovementSystem(entityManager);
 
   systemManager.addSystem(renderSystem);
   systemManager.addSystem(inputSystem);
+  systemManager.addSystem(movementSystem);
 
   startGame({
     canvas,

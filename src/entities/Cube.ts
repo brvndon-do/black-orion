@@ -8,15 +8,15 @@ export class CubeEntity extends BaseEntity {
   constructor(
     public id: string,
     public color: string,
-    public position: { x: number; y: number; z: number }
+    public position: THREE.Vector3
   ) {
     super(id);
 
-    const transformComponent = new TransformComponent(
-      new THREE.Vector3(position.x, position.y, position.z)
-    );
+    const transformComponent = new TransformComponent(position);
 
     const inputComponent = new InputComponent({
+      up: 'ArrowUp',
+      down: 'ArrowDown',
       left: 'ArrowLeft',
       right: 'ArrowRight',
     });

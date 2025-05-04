@@ -3,8 +3,10 @@ import { BaseSystem } from '../types/System';
 import { EntityManager } from '../entities/EntityManager';
 import { TransformComponent } from '../components/Transform';
 import { MeshComponent } from '../components/Mesh';
+import { CameraComponent } from '../components/Camera';
 
 export class RenderSystem extends BaseSystem {
+  private camera!: THREE.Camera;
   private renderer: THREE.WebGLRenderer;
 
   // TODO: create light system?
@@ -14,7 +16,6 @@ export class RenderSystem extends BaseSystem {
 
   constructor(
     public canvas: HTMLCanvasElement,
-    public camera: THREE.PerspectiveCamera,
     public scene: THREE.Scene,
     public entityManager: EntityManager
   ) {
@@ -29,6 +30,11 @@ export class RenderSystem extends BaseSystem {
   init(): void {
     this.light.position.set(-1, 2, 4);
     this.scene.add(this.light);
+
+    const cameraEntity = this.entityManager.getEntityById('mainCamera'); // TODO: this might be a lazy way to do it... find a proper way later
+    const cameraComponent = cameraEntity!.getComponent(CameraComponent);
+
+    this.camera = cameraComponent!.getCamera();
   }
 
   update(deltaTime: number): void {
@@ -64,12 +70,6 @@ export class RenderSystem extends BaseSystem {
         transformComponent.rotation.y,
         transformComponent.rotation.z
       );
-
-      // meshComponent.mesh.scale.set(
-      //   transformComponent.scale.x,
-      //   transformComponent.scale.y,
-      //   transformComponent.scale.z
-      // );
     }
 
     this.renderer.render(this.scene, this.camera);

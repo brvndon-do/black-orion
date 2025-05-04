@@ -5,7 +5,6 @@ import { InputManager } from '../misc/InputManager';
 import { BaseSystem } from '../types/System';
 
 export class InputSystem extends BaseSystem {
-  private rotationSpeed = 2.0;
   constructor(
     public entityManager: EntityManager,
     public inputManager: InputManager
@@ -30,14 +29,22 @@ export class InputSystem extends BaseSystem {
         continue;
       }
 
+      if (this.inputManager.isKeyPressed(inputComponent.bindings['up'])) {
+        inputComponent.intent.rotate.x += 1;
+        inputComponent.intent.rotate.y += 1;
+      }
+
+      if (this.inputManager.isKeyPressed(inputComponent.bindings['down'])) {
+        inputComponent.intent.rotate.x -= 1;
+        inputComponent.intent.rotate.y -= 1;
+      }
+
       if (this.inputManager.isKeyPressed(inputComponent.bindings['left'])) {
-        transformComponent.rotation.x -= deltaTime * this.rotationSpeed;
-        transformComponent.rotation.y -= deltaTime * this.rotationSpeed;
-      } else if (
-        this.inputManager.isKeyPressed(inputComponent.bindings['right'])
-      ) {
-        transformComponent.rotation.x += deltaTime * this.rotationSpeed;
-        transformComponent.rotation.y += deltaTime * this.rotationSpeed;
+        inputComponent.intent.move.x -= 1;
+      }
+
+      if (this.inputManager.isKeyPressed(inputComponent.bindings['right'])) {
+        inputComponent.intent.move.x += 1;
       }
     }
   }

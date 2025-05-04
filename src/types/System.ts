@@ -4,7 +4,7 @@ export interface System {
   dispose(): void;
 }
 
-export class BaseSystem implements System {
+export abstract class BaseSystem implements System {
   constructor(public priority: number = 0, public tags: string[] = []) {}
 
   update(deltaTime: number): void {
