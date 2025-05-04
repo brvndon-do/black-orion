@@ -1,6 +1,7 @@
 import { InputComponent, TransformComponent } from '../components';
 import { EntityManager } from '../entities/EntityManager';
 import { BaseSystem } from '../types/System';
+import { applyIntent } from '../utils/IntentUtils';
 
 export class MovementSystem extends BaseSystem {
   private speed = 2.0;
@@ -26,19 +27,12 @@ export class MovementSystem extends BaseSystem {
         continue;
       }
 
-      transformComponent.position.x +=
-        inputComponent.intent.move.x * deltaTime * this.speed;
-      transformComponent.position.y +=
-        inputComponent.intent.move.y * deltaTime * this.speed;
-      transformComponent.position.z +=
-        inputComponent.intent.move.z * deltaTime * this.speed;
-
-      transformComponent.rotation.x +=
-        inputComponent.intent.rotate.x * deltaTime * this.speed;
-      transformComponent.rotation.y +=
-        inputComponent.intent.rotate.y * deltaTime * this.speed;
-      transformComponent.rotation.z +=
-        inputComponent.intent.rotate.z * deltaTime * this.speed;
+      applyIntent(
+        transformComponent,
+        inputComponent.intent,
+        deltaTime,
+        this.speed
+      );
 
       inputComponent.resetIntent();
     }

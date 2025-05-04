@@ -6,6 +6,7 @@ import {
   MeshComponent,
   CameraComponent,
 } from '../components';
+import { isVector3Zero } from '../utils/Vector3Utils';
 
 export class RenderSystem extends BaseSystem {
   private camera!: THREE.Camera;
@@ -72,6 +73,14 @@ export class RenderSystem extends BaseSystem {
         transformComponent.rotation.y,
         transformComponent.rotation.z
       );
+
+      if (!isVector3Zero(transformComponent.scale)) {
+        meshComponent.mesh.scale.set(
+          transformComponent.scale.x,
+          transformComponent.scale.y,
+          transformComponent.scale.z
+        );
+      }
     }
 
     this.renderer.render(this.scene, this.camera);

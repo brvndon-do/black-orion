@@ -4,7 +4,12 @@ import { EntityManager } from './entities/EntityManager';
 import { SystemManager } from './systems/SystemManager';
 import { InputManager } from './misc/InputManager';
 import { CubeEntity, CameraEntity } from './entities';
-import { RenderSystem, InputSystem, MovementSystem } from './systems';
+import {
+  RenderSystem,
+  InputSystem,
+  MovementSystem,
+  CameraSystem,
+} from './systems';
 
 (() => {
   const canvas = document.querySelector('canvas');
@@ -43,10 +48,12 @@ import { RenderSystem, InputSystem, MovementSystem } from './systems';
   const renderSystem = new RenderSystem(canvas, scene, entityManager);
   const inputSystem = new InputSystem(entityManager, inputManager);
   const movementSystem = new MovementSystem(entityManager);
+  const cameraSystem = new CameraSystem(entityManager);
 
   systemManager.addSystem(renderSystem);
   systemManager.addSystem(inputSystem);
   systemManager.addSystem(movementSystem);
+  systemManager.addSystem(cameraSystem);
 
   startGame({
     canvas,

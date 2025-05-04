@@ -22,7 +22,7 @@ export class CameraEntity extends BaseEntity {
       },
       position
     );
-    const transformComponent = new TransformComponent();
+    const transformComponent = new TransformComponent(position);
     const inputComponent = new InputComponent({
       forward: 'w',
       backward: 's',
