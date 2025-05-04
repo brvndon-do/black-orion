@@ -1,7 +1,9 @@
 import * as THREE from 'three';
-import { CameraComponent } from '../components/Camera';
-import { InputComponent } from '../components/Input';
-import { TransformComponent } from '../components/Transform';
+import {
+  CameraComponent,
+  InputComponent,
+  TransformComponent,
+} from '../components';
 import { BaseEntity } from '../types/Entity';
 
 export class CameraEntity extends BaseEntity {

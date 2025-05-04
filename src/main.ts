@@ -1,13 +1,10 @@
 import * as THREE from 'three';
-import { CubeEntity } from './entities/Cube';
-import { EntityManager } from './entities/EntityManager';
 import { startGame } from './game';
+import { EntityManager } from './entities/EntityManager';
 import { SystemManager } from './systems/SystemManager';
-import { RenderSystem } from './systems/RenderSystem';
-import { InputSystem } from './systems/InputSystem';
 import { InputManager } from './misc/InputManager';
-import { CameraEntity } from './entities/Camera';
-import { MovementSystem } from './systems/MovementSystem';
+import { CubeEntity, CameraEntity } from './entities';
+import { RenderSystem, InputSystem, MovementSystem } from './systems';
 
 (() => {
   const canvas = document.querySelector('canvas');

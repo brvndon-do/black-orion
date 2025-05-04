@@ -1,5 +1,4 @@
-import { InputComponent } from '../components/Input';
-import { TransformComponent } from '../components/Transform';
+import { InputComponent, TransformComponent } from '../components';
 import { EntityManager } from '../entities/EntityManager';
 import { BaseSystem } from '../types/System';
 

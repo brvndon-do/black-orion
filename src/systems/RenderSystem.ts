@@ -1,9 +1,11 @@
 import * as THREE from 'three';
 import { BaseSystem } from '../types/System';
 import { EntityManager } from '../entities/EntityManager';
-import { TransformComponent } from '../components/Transform';
-import { MeshComponent } from '../components/Mesh';
-import { CameraComponent } from '../components/Camera';
+import {
+  TransformComponent,
+  MeshComponent,
+  CameraComponent,
+} from '../components';
 
 export class RenderSystem extends BaseSystem {
   private camera!: THREE.Camera;

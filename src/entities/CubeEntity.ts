@@ -1,8 +1,10 @@
 import * as THREE from 'three';
-import { TransformComponent } from '../components/Transform';
+import {
+  TransformComponent,
+  MeshComponent,
+  InputComponent,
+} from '../components';
 import { BaseEntity } from '../types/Entity';
-import { MeshComponent } from '../components/Mesh';
-import { InputComponent } from '../components/Input';
 
 export class CubeEntity extends BaseEntity {
   constructor(
