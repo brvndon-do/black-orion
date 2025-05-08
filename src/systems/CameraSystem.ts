@@ -5,7 +5,7 @@ import { BaseEntity, BaseSystem } from '../types';
 export class CameraSystem extends BaseSystem {
   private cameraEntity: BaseEntity | undefined;
 
-  constructor(public entityManager: EntityManager) {
+  constructor(private entityManager: EntityManager) {
     super(0, ['camera']);
   }
 

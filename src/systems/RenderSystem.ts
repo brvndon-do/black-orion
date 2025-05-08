@@ -1,39 +1,30 @@
 import * as THREE from 'three';
-import { BaseSystem } from '../types/System';
+import { BaseSystem } from '../types';
 import { EntityManager } from '../entities/EntityManager';
-import {
-  TransformComponent,
-  MeshComponent,
-  CameraComponent,
-} from '../components';
-import { isVector3Zero } from '../utils/Vector3Utils';
+import { SceneManager } from '../scenes/SceneManager';
+import { CameraComponent, MeshComponent } from '../components';
 
 export class RenderSystem extends BaseSystem {
   private camera!: THREE.Camera;
   private renderer: THREE.WebGLRenderer;
 
-  // TODO: create light system?
-  private light: THREE.DirectionalLight;
-
   private addedObjects: Set<THREE.Object3D>;
 
   constructor(
-    public canvas: HTMLCanvasElement,
-    public scene: THREE.Scene,
-    public entityManager: EntityManager
+    private canvas: HTMLCanvasElement,
+    private entityManager: EntityManager,
+    private sceneManager: SceneManager
   ) {
     super(0, ['render']);
 
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      canvas: this.canvas,
+    });
     this.addedObjects = new Set<THREE.Object3D>();
-
-    this.renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
-    this.light = new THREE.DirectionalLight('white', 5);
   }
 
   init(): void {
-    this.light.position.set(-1, 2, 4);
-    this.scene.add(this.light);
-
     const cameraEntity = this.entityManager.getEntityById('mainCamera'); // TODO: this might be a lazy way to do it... find a proper way later
     const cameraComponent = cameraEntity!.getComponent(CameraComponent);
 
@@ -41,48 +32,24 @@ export class RenderSystem extends BaseSystem {
   }
 
   update(deltaTime: number): void {
-    const entities = this.entityManager.getEntitiesWithComponents(
-      TransformComponent,
-      MeshComponent
-    );
+    const scene = this.sceneManager.getCurrentScreen()?.threeScene;
+
+    if (scene == null) {
+      return;
+    }
+
+    const entities =
+      this.entityManager.getEntitiesWithComponents(MeshComponent);
 
     for (const entity of entities) {
-      const transformComponent = entity.getComponent(TransformComponent);
-      const meshComponent = entity.getComponent(MeshComponent);
-
-      if (transformComponent == null || meshComponent == null) {
-        console.log(
-          `renderSystem: missing essential components for entity ${entity.id}`
-        );
-        continue;
-      }
+      const meshComponent = entity.getComponent(MeshComponent)!;
 
       if (!this.addedObjects.has(meshComponent.mesh)) {
-        this.scene.add(meshComponent.mesh);
         this.addedObjects.add(meshComponent.mesh);
-      }
-
-      meshComponent.mesh.position.set(
-        transformComponent.position.x,
-        transformComponent.position.y,
-        transformComponent.position.z
-      );
-
-      meshComponent.mesh.rotation.set(
-        transformComponent.rotation.x,
-        transformComponent.rotation.y,
-        transformComponent.rotation.z
-      );
-
-      if (!isVector3Zero(transformComponent.scale)) {
-        meshComponent.mesh.scale.set(
-          transformComponent.scale.x,
-          transformComponent.scale.y,
-          transformComponent.scale.z
-        );
+        scene.add(meshComponent.mesh);
       }
     }
 
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.render(scene, this.camera);
   }
 }

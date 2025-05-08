@@ -6,11 +6,10 @@ import { applyIntent } from '../utils/IntentUtils';
 export class MovementSystem extends BaseSystem {
   private speed = 2.0;
 
-  constructor(public entityManager: EntityManager) {
+  constructor(private entityManager: EntityManager) {
     super(0, ['movement']);
   }
 
-  init(): void {}
   update(deltaTime: number): void {
     const entities = this.entityManager.getEntitiesWithComponents(
       TransformComponent,

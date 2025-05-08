@@ -5,8 +5,8 @@ import { BaseSystem } from '../types/System';
 
 export class InputSystem extends BaseSystem {
   constructor(
-    public entityManager: EntityManager,
-    public inputManager: InputManager
+    private entityManager: EntityManager,
+    private inputManager: InputManager
   ) {
     super(0, ['input']);
   }
@@ -28,14 +28,12 @@ export class InputSystem extends BaseSystem {
         continue;
       }
 
-      if (this.inputManager.isKeyPressed(inputComponent.bindings['up'])) {
-        inputComponent.intent.rotate.x += 1;
-        inputComponent.intent.rotate.y += 1;
+      if (this.inputManager.isKeyPressed(inputComponent.bindings['forward'])) {
+        inputComponent.intent.move.z -= 1;
       }
 
-      if (this.inputManager.isKeyPressed(inputComponent.bindings['down'])) {
-        inputComponent.intent.rotate.x -= 1;
-        inputComponent.intent.rotate.y -= 1;
+      if (this.inputManager.isKeyPressed(inputComponent.bindings['backward'])) {
+        inputComponent.intent.move.z += 1;
       }
 
       if (this.inputManager.isKeyPressed(inputComponent.bindings['left'])) {

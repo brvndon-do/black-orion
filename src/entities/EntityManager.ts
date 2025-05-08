@@ -1,22 +1,23 @@
+import { ObjectIdentifier } from '../types';
 import { Component, ComponentClass } from '../types/Component';
 import { BaseEntity } from '../types/Entity';
 
 export class EntityManager {
-  private entities: Map<string | number, BaseEntity>;
+  private entities: Map<ObjectIdentifier, BaseEntity>;
 
   constructor() {
-    this.entities = new Map<string | number, BaseEntity>();
+    this.entities = new Map<ObjectIdentifier, BaseEntity>();
   }
 
   addEntity(entity: BaseEntity) {
     this.entities.set(entity.id, entity);
   }
 
-  removeEntity(id: string | number) {
+  removeEntity(id: ObjectIdentifier) {
     this.entities.delete(id);
   }
 
-  getEntityById(id: string | number) {
+  getEntityById(id: ObjectIdentifier) {
     return this.entities.get(id);
   }
 

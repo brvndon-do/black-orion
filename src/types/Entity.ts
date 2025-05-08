@@ -1,7 +1,8 @@
+import { ObjectIdentifier } from '.';
 import { Component, ComponentClass } from './Component';
 
 export interface Entity {
-  id: string | number;
+  id: ObjectIdentifier;
   addComponent<T extends Component>(
     componentClass: ComponentClass<T>,
     instance: T
@@ -17,7 +18,7 @@ export interface Entity {
 export class BaseEntity implements Entity {
   protected components: Map<Function, Component>;
 
-  constructor(public id: string | number) {
+  constructor(public id: ObjectIdentifier) {
     this.components = new Map<Function, Component>();
   }
 
