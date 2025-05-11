@@ -25,16 +25,10 @@ export const startGame = ({
   canvas.addEventListener('mousedown', () => {
     canvas.requestPointerLock();
   });
-
-  document.addEventListener('mousemove', (e) => {
-    if (document.pointerLockElement === canvas) {
-      console.log('mousemove', e.movementX, e.movementY);
-    }
-  });
-  document.addEventListener('keydown', (e) => {
+  canvas.addEventListener('keydown', (e) => {
     inputManager.keyDown(e.key);
   });
-  document.addEventListener('keyup', (e) => {
+  canvas.addEventListener('keyup', (e) => {
     inputManager.keyUp(e.key);
   });
 

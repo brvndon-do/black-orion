@@ -20,7 +20,6 @@ export class MovementSystem extends BaseSystem {
       const transformComponent = entity.getComponent(TransformComponent);
       const inputComponent = entity.getComponent(InputComponent);
 
-      // TODO: maybe make utility class to check if component is not null
       if (transformComponent == null || inputComponent == null) {
         console.log('movementSystem: missing essential components'); // TODO: create a const for common log messages
         continue;
