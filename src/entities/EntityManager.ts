@@ -9,21 +9,21 @@ export class EntityManager {
     this.entities = new Map<ObjectIdentifier, BaseEntity>();
   }
 
-  addEntity(entity: BaseEntity) {
+  addEntity(entity: BaseEntity): void {
     this.entities.set(entity.id, entity);
   }
 
-  removeEntity(id: ObjectIdentifier) {
+  removeEntity(id: ObjectIdentifier): void {
     this.entities.delete(id);
   }
 
-  getEntityById(id: ObjectIdentifier) {
+  getEntityById(id: ObjectIdentifier): BaseEntity | undefined {
     return this.entities.get(id);
   }
 
   getEntitiesWithComponents<T extends Component[]>(
     ...componentClasses: { [K in keyof T]: ComponentClass<T[K]> }
-  ) {
+  ): BaseEntity[] {
     return Array.from(this.entities.values()).filter((x) =>
       componentClasses.every((y) => x.hasComponent(y))
     );

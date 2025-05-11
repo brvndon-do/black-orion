@@ -8,7 +8,7 @@ export class TransformSystem extends BaseSystem {
     super(0, ['transform']);
   }
 
-  update(_: number) {
+  update(_: number): void {
     const entities = this.entityManager.getEntitiesWithComponents(
       TransformComponent,
       MeshComponent

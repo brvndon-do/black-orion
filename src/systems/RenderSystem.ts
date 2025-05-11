@@ -35,6 +35,7 @@ export class RenderSystem extends BaseSystem {
     const scene = this.sceneManager.getCurrentScreen()?.threeScene;
 
     if (scene == null) {
+      // TODO: log some sort of message?
       return;
     }
 

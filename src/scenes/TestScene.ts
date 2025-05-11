@@ -13,7 +13,7 @@ export class TestScene implements Scene {
     this.light = new THREE.DirectionalLight('white', 10);
   }
 
-  setup(entityManager: EntityManager) {
+  setup(entityManager: EntityManager): void {
     this.light.position.set(-1, 2, 4);
 
     const cubes = [

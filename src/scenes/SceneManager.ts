@@ -9,19 +9,19 @@ export class SceneManager {
     this.scenes = new Map<ObjectIdentifier, Scene>();
   }
 
-  addScene(id: ObjectIdentifier, scene: Scene) {
+  addScene(id: ObjectIdentifier, scene: Scene): void {
     this.scenes.set(id, scene);
   }
 
-  removeScene(id: ObjectIdentifier) {
+  removeScene(id: ObjectIdentifier): void {
     this.scenes.delete(id);
   }
 
-  getCurrentScreen() {
+  getCurrentScreen(): Scene | undefined {
     return this.currentScene;
   }
 
-  load(id: ObjectIdentifier) {
+  load(id: ObjectIdentifier): void {
     this.currentScene?.cleanup?.();
 
     const scene = this.scenes.get(id);
@@ -35,7 +35,7 @@ export class SceneManager {
     this.currentScene = scene;
   }
 
-  update(deltaTime: number) {
+  update(deltaTime: number): void {
     this.currentScene?.update?.(deltaTime);
   }
 }

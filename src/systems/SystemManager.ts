@@ -16,7 +16,7 @@ export class SystemManager {
     return this.systems.filter((x) => x.tags.includes(tag));
   }
 
-  update(deltaTime: number) {
+  update(deltaTime: number): void {
     for (const system of this.systems) {
       system.update(deltaTime);
     }
@@ -28,7 +28,7 @@ export class SystemManager {
     }
   }
 
-  disposeSystem(system: BaseSystem) {
+  disposeSystem(system: BaseSystem): void {
     const foundSystem = this.systems.find((x) => x === system);
 
     if (foundSystem == null) {
