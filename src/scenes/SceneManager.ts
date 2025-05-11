@@ -22,6 +22,8 @@ export class SceneManager {
   }
 
   load(id: ObjectIdentifier) {
+    this.currentScene?.cleanup?.();
+
     const scene = this.scenes.get(id);
 
     if (scene == null) {
@@ -31,5 +33,9 @@ export class SceneManager {
     scene.setup(this.entityManager);
 
     this.currentScene = scene;
+  }
+
+  update(deltaTime: number) {
+    this.currentScene?.update?.(deltaTime);
   }
 }

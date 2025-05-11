@@ -15,7 +15,6 @@ export class CameraComponent<T extends THREE.Camera> implements Component {
     const { CameraType, cameraArgs } = config;
 
     this.camera = new CameraType(...cameraArgs);
-
     this.camera.position.copy(position);
   }
 

@@ -1,4 +1,4 @@
-import { InputComponent, TransformComponent } from '../components';
+import { InputComponent } from '../components';
 import { EntityManager } from '../entities/EntityManager';
 import { InputManager } from '../misc/InputManager';
 import { BaseSystem } from '../types/System';
@@ -11,17 +11,14 @@ export class InputSystem extends BaseSystem {
     super(0, ['input']);
   }
 
-  update(deltaTime: number): void {
-    const entities = this.entityManager.getEntitiesWithComponents(
-      InputComponent,
-      TransformComponent
-    );
+  update(_: number): void {
+    const entities =
+      this.entityManager.getEntitiesWithComponents(InputComponent);
 
     for (const entity of entities) {
       const inputComponent = entity.getComponent(InputComponent);
-      const transformComponent = entity.getComponent(TransformComponent);
 
-      if (inputComponent == null || transformComponent == null) {
+      if (inputComponent == null) {
         console.log(
           `inputSystem: missing essential components for entity ${entity.id}`
         );

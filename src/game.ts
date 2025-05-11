@@ -1,5 +1,6 @@
 import { EntityManager } from './entities/EntityManager';
 import { InputManager } from './misc/InputManager';
+import { SceneManager } from './scenes/SceneManager';
 import { SystemManager } from './systems/SystemManager';
 
 type GameConfiguration = {
@@ -7,6 +8,7 @@ type GameConfiguration = {
   entityManager: EntityManager;
   systemManager: SystemManager;
   inputManager: InputManager;
+  sceneManager: SceneManager;
 };
 
 let lastTimestamp = performance.now();
@@ -16,14 +18,23 @@ export const startGame = ({
   entityManager,
   systemManager,
   inputManager,
+  sceneManager,
 }: GameConfiguration) => {
   systemManager.initSystems();
 
-  canvas.addEventListener('keydown', (e) => {
-    inputManager.keyDown(e.key);
+  canvas.addEventListener('mousedown', () => {
+    canvas.requestPointerLock();
   });
 
-  canvas.addEventListener('keyup', (e) => {
+  document.addEventListener('mousemove', (e) => {
+    if (document.pointerLockElement === canvas) {
+      console.log('mousemove', e.movementX, e.movementY);
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    inputManager.keyDown(e.key);
+  });
+  document.addEventListener('keyup', (e) => {
     inputManager.keyUp(e.key);
   });
 
@@ -31,6 +42,7 @@ export const startGame = ({
     const deltaTime = (currentTimestamp - lastTimestamp) / 1000;
     lastTimestamp = currentTimestamp;
 
+    sceneManager.update(deltaTime);
     systemManager.update(deltaTime);
 
     requestAnimationFrame(gameLoop);

@@ -31,7 +31,7 @@ export class RenderSystem extends BaseSystem {
     this.camera = cameraComponent!.getCamera();
   }
 
-  update(deltaTime: number): void {
+  update(_: number): void {
     const scene = this.sceneManager.getCurrentScreen()?.threeScene;
 
     if (scene == null) {
