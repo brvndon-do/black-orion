@@ -13,6 +13,7 @@ export interface Entity {
     componentClass: ComponentClass<T>
   ): T | undefined;
   hasComponent<T extends Component>(componentClass: ComponentClass<T>): boolean;
+  init?(): void;
 }
 
 export class BaseEntity implements Entity {
@@ -55,4 +56,6 @@ export class BaseEntity implements Entity {
   ): boolean {
     return this.components.has(componentClass);
   }
+
+  init?(): void {}
 }

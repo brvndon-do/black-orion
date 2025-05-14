@@ -15,8 +15,9 @@ export const applyIntent = (
       transformComponent.rotation.z
     )
   );
-  const worldDirection = localDirection.applyQuaternion(rotation);
-  worldDirection.multiplyScalar(deltaTime * speed);
 
-  transformComponent.position.add(worldDirection);
+  const globalDirection = localDirection.applyQuaternion(rotation);
+  globalDirection.multiplyScalar(deltaTime * speed);
+
+  transformComponent.position.add(globalDirection);
 };

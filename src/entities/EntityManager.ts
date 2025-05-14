@@ -11,6 +11,8 @@ export class EntityManager {
 
   addEntity(entity: BaseEntity): void {
     this.entities.set(entity.id, entity);
+
+    entity.init?.();
   }
 
   removeEntity(id: ObjectIdentifier): void {

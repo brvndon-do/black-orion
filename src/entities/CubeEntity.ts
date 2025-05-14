@@ -13,8 +13,10 @@ export class CubeEntity extends BaseEntity {
     public position: THREE.Vector3
   ) {
     super(id);
+  }
 
-    const transformComponent = new TransformComponent(position);
+  init(): void {
+    const transformComponent = new TransformComponent(this.position);
 
     const inputComponent = new InputComponent({
       up: 'ArrowUp',
@@ -24,7 +26,7 @@ export class CubeEntity extends BaseEntity {
     });
 
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshPhongMaterial({ color });
+    const material = new THREE.MeshPhongMaterial({ color: this.color });
     const meshComponent = new MeshComponent(new THREE.Mesh(geometry, material));
 
     this.addComponent(TransformComponent, transformComponent);

@@ -9,20 +9,22 @@ import { BaseEntity } from '../types/Entity';
 export class CameraEntity extends BaseEntity {
   constructor(
     public id: string,
-    width: number,
-    height: number,
-    position: THREE.Vector3
+    private width: number,
+    private height: number,
+    private position: THREE.Vector3
   ) {
     super(id);
+  }
 
+  init(): void {
     const cameraComponent = new CameraComponent(
       {
         CameraType: THREE.PerspectiveCamera,
-        cameraArgs: [75, width / height, 0.1, 1000],
+        cameraArgs: [75, this.width / this.height, 0.1, 1000],
       },
-      position
+      this.position
     );
-    const transformComponent = new TransformComponent(position);
+    const transformComponent = new TransformComponent(this.position);
     const inputComponent = new InputComponent({
       forward: 'w',
       backward: 's',
