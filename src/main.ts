@@ -9,25 +9,37 @@ import {
   InputSystem,
   MovementSystem,
   CameraSystem,
+  HudSystem,
 } from './systems';
 import { SceneManager } from './scenes/SceneManager';
 import { TransformSystem } from './systems/TransformSystem';
 import { TestScene } from './scenes/TestScene';
 import { FooScene } from './scenes/FooScene';
+import { UIManager } from './misc/UIManager';
+import { ScreenContext } from './types';
 
 (() => {
-  const canvas = document.querySelector('canvas');
+  const gameCanvas = document.querySelector(
+    '#game'
+  ) as HTMLCanvasElement | null;
+  const hudCanvas = document.querySelector('#hud') as HTMLCanvasElement | null;
+  const hudCanvasContext = hudCanvas?.getContext('2d');
 
-  if (!canvas) {
+  if (!gameCanvas) {
     throw new Error('main: unable to initialize canvas');
   }
 
-  canvas.focus();
+  if (!hudCanvas || !hudCanvasContext) {
+    throw new Error('main: unable to initialize hud');
+  }
+
+  gameCanvas.focus();
 
   // instantiate managers
   const entityManager = new EntityManager();
   const systemManager = new SystemManager();
   const inputManager = new InputManager();
+  const uiManager = new UIManager(hudCanvasContext);
 
   const sceneManager = new SceneManager(entityManager);
   sceneManager.addScene('test', new TestScene());
@@ -36,31 +48,44 @@ import { FooScene } from './scenes/FooScene';
 
   const camera = new CameraEntity(
     'mainCamera',
-    canvas.clientWidth,
-    canvas.clientHeight,
+    gameCanvas.clientWidth,
+    gameCanvas.clientHeight,
     new THREE.Vector3(0, 0, 5)
   );
 
   entityManager.addEntity(camera);
 
+  // set context
+  const screenContext: ScreenContext = {
+    width: gameCanvas.width,
+    height: gameCanvas.height,
+  };
+
   // instantiate systems
   const transformSystem = new TransformSystem(entityManager);
-  const renderSystem = new RenderSystem(canvas, entityManager, sceneManager);
+  const renderSystem = new RenderSystem(
+    gameCanvas,
+    entityManager,
+    sceneManager
+  );
   const inputSystem = new InputSystem(entityManager, inputManager);
   const movementSystem = new MovementSystem(entityManager);
-  const cameraSystem = new CameraSystem(canvas, entityManager);
+  const cameraSystem = new CameraSystem(gameCanvas, entityManager);
+  const hudSystem = new HudSystem(entityManager, uiManager, screenContext);
 
   systemManager.addSystem(transformSystem);
   systemManager.addSystem(renderSystem);
   systemManager.addSystem(inputSystem);
   systemManager.addSystem(movementSystem);
   systemManager.addSystem(cameraSystem);
+  systemManager.addSystem(hudSystem);
 
   startGame({
-    canvas,
+    canvas: gameCanvas,
     entityManager,
     systemManager,
     inputManager,
     sceneManager,
+    uiManager,
   });
 })();

@@ -32,7 +32,7 @@ export class SystemManager {
     const foundSystem = this.systems.find((x) => x === system);
 
     if (foundSystem == null) {
-      console.log('systemManager: unable to find system');
+      console.warn('systemManager: unable to find system');
       return;
     }
 

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { EntityManager } from '../entities/EntityManager';
 import { Scene } from '../types';
 import { CubeEntity } from '../entities';
+import { FooHudEntity } from '../entities/hud/FooHudEntity';
 
 export class TestScene implements Scene {
   public name = 'Test';
@@ -23,6 +24,9 @@ export class TestScene implements Scene {
     ];
 
     cubes.forEach((cube) => entityManager.addEntity(cube));
+
+    const fooHud = new FooHudEntity('foo', 'Hello, world!');
+    entityManager.addEntity(fooHud);
 
     this.threeScene.add(this.light);
   }

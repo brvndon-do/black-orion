@@ -19,7 +19,7 @@ export class InputSystem extends BaseSystem {
       const inputComponent = entity.getComponent(InputComponent);
 
       if (inputComponent == null) {
-        console.log(
+        console.warn(
           `inputSystem: missing essential components for entity ${entity.id}`
         );
         continue;

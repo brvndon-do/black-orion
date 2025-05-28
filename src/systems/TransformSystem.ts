@@ -19,7 +19,7 @@ export class TransformSystem extends BaseSystem {
       const meshComponent = entity.getComponent(MeshComponent);
 
       if (transformComponent == null || meshComponent == null) {
-        console.log(
+        console.warn(
           `renderSystem: missing essential components for entity ${entity.id}`
         );
         continue;

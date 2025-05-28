@@ -11,7 +11,7 @@ export class CameraComponent<T extends THREE.Camera> implements Component {
   public type = 'camera';
   private camera: T;
 
-  constructor(config: CameraConfig<T>, position: THREE.Vector3) {
+  constructor(public config: CameraConfig<T>, public position: THREE.Vector3) {
     const { CameraType, cameraArgs } = config;
 
     this.camera = new CameraType(...cameraArgs);

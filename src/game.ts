@@ -1,5 +1,6 @@
 import { EntityManager } from './entities/EntityManager';
 import { InputManager } from './misc/InputManager';
+import { UIManager } from './misc/UIManager';
 import { SceneManager } from './scenes/SceneManager';
 import { SystemManager } from './systems/SystemManager';
 
@@ -9,6 +10,7 @@ type GameConfiguration = {
   systemManager: SystemManager;
   inputManager: InputManager;
   sceneManager: SceneManager;
+  uiManager: UIManager;
 };
 
 let lastTimestamp = performance.now();
@@ -19,6 +21,7 @@ export const startGame = ({
   systemManager,
   inputManager,
   sceneManager,
+  uiManager,
 }: GameConfiguration) => {
   systemManager.initSystems();
 
@@ -36,6 +39,7 @@ export const startGame = ({
     const deltaTime = (currentTimestamp - lastTimestamp) / 1000;
     lastTimestamp = currentTimestamp;
 
+    uiManager.clear();
     sceneManager.update(deltaTime);
     systemManager.update(deltaTime);
 
